@@ -23,6 +23,7 @@
     - Empty page and able to create cards inside a fixed column
 - V1
     - Can create more columns and cards freely
+    - Styling
     - Like / Dislike
 - V2
     - Movable cards and columns

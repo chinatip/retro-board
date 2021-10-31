@@ -1,15 +1,13 @@
-import { useEffect } from 'react';
-import { Container, SimpleList } from './components/Board';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Board } from './components/Board/Board';
 
 function App() {
-  useEffect(() => {
-    SimpleList();
-  });
-
   return (
-    <div className="App">
-      <Container />
-    </div>
+    <ChakraProvider>
+      <div className="App">
+        <Board />
+      </div>
+    </ChakraProvider>
   );
 }
 
