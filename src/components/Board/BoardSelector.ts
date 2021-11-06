@@ -29,11 +29,11 @@ export const BoardSelector = () => {
         evt.originalEvent.target?.dispatchEvent(event);
 
         console.log(evt, 'start dragging')
-      });
+    });
 
-      sortable.on('drag:over', (evt) => {
+    sortable.on('drag:over', (evt) => {
         console.log(evt, 'over')
-      });
+    });
 
     return sortable;
 };
