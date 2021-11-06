@@ -1,4 +1,4 @@
-import { atom } from "recoil";
+import { atom, atomFamily } from "recoil";
 import { ColumnProps } from './../components/Column/Column';
 
 export const enableEditing = atom({
@@ -14,7 +14,6 @@ export const hideCards = atom({
 export const columnList = atom<ColumnProps[]>({
     key: 'columnList',
     default: [
-        { id: 0, name: 'New Column 0' }
+        { id: 0, name: 'New Column 0', cards: [] }
     ],
 });
-

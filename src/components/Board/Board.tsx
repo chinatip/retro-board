@@ -13,9 +13,8 @@ const BoardComponent = () => {
 
     const renderBoardHeader = () => {
         return (
-            <div className="Board__Header" style={{ width: '100%', height: '100%', padding: '40px', textAlign: 'center' }}>
+            <div className="Board__Header" style={{ width: '100%', padding: '40px', textAlign: 'center' }}>
                 <h1>{name}</h1>
-                {renderBoardContent()}
             </div>
         )
     };
@@ -24,7 +23,8 @@ const BoardComponent = () => {
         const handleAddColumn = () => {
             const newCol: ColumnProps = {
                 id: columns.length,
-                name: `New Column ${columns.length}`
+                name: `New Column ${columns.length}`,
+                cards: [],
             };
     
             setColumns(columns.concat(newCol));
@@ -43,7 +43,7 @@ const BoardComponent = () => {
 
     return (
         <div className="Board__Container" style={{ width: '100%', height: '100%', background: '#bdbbbb', display: 'flex', flexDirection: 'column', padding: '40px' }}>
-            <h1>{name}</h1>
+            {renderBoardHeader()}
             {renderBoardContent()}
         </div>
     );

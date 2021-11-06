@@ -8,33 +8,37 @@ import { EditButton } from './EditButton';
 export interface ColumnProps {
     id: number;
     name: string;
+    cards: CardProps[];
 }
 
 const ColumnComponent = (props: ColumnProps) => {
     const [columnName, setcolumnName] = useState(props.name);
     const [cards, setCards] = useState<CardProps[]>([]);
 
-    const getDefaultCard = (): CardProps => ({ content: 'empty card' });
+    const handleAddCard = () => {
+        const newCard: CardProps = {
+            id: cards.length,
+            content: `empty card ${cards.length}`,
+        };
+        const updatedCardList = cards?.concat(newCard);
 
-    function handleAppendCard(): void {
-        const updatedCardList = cards.concat(getDefaultCard());
         setCards(updatedCardList);
     }
 
-    const renderCards = () => cards.map(c => <Card content="card"/>);
+    const renderContent = () => {
+        const CardList = () => <>{cards.map(c => <Card {...c} />)}</>;
+        const AddCardButton = () => <Button colorScheme="blue" onClick={handleAddCard}>+</Button>;
 
-    function renderContent(): JSX.Element {
-        const renderCards = () => cards.map(c => <Card content="card"/>);
         return (
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Button colorScheme="green" onClick={handleAppendCard}>+</Button>
-                {renderCards()}
+                <AddCardButton />
+                <CardList />
             </div>
       );
     };
 
     return (
-        <div className={COLUMN_CLASSNAME} style={{ border: '1px solid blue', width: '300px', height: '80%', padding: '10px', margin:'20px' }}>
+        <div className={COLUMN_CLASSNAME} style={{ border: '1px solid blue', width: '300px', padding: '10px', margin:'20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                 <span>{columnName}</span>
                 <EditButton />
