@@ -1,10 +1,10 @@
-import { BoardSelector } from './BoardSelector';
 import { Column, ColumnProps } from './../Column/Column';
-import { BOARD_CLASSNAME } from './../constant';
+import { BOARD_CLASSNAME, COLUMN_CLASSNAME } from './../constant';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { columnList } from './../../states/BoardState';
 import { Button } from '@chakra-ui/button';
+import { Selector } from '../selectors/Selector';
 
 const BoardComponent = () => {
     const [name, setName] = useState('BoardName');
@@ -51,7 +51,7 @@ const BoardComponent = () => {
 
 export const Board = () => {
     useEffect(() => {
-        BoardSelector();
+        Selector({ parentClassName: BOARD_CLASSNAME, childClassName: COLUMN_CLASSNAME });
     });
 
   return <BoardComponent />

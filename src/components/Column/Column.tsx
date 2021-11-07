@@ -23,7 +23,7 @@ const ColumnComponent = (props: ColumnProps) => {
         const updatedCardList = cards?.concat(newCard);
 
         setCards(updatedCardList);
-    }
+    };
 
     const renderContent = () => {
         const CardList = () => <>{cards.map(c => <Card {...c} />)}</>;
