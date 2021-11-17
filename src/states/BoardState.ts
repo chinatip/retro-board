@@ -15,9 +15,17 @@ export const hideCards = atom({
 export const columnList = atom<ColumnProps[]>({
     key: 'columnList',
     default: [
-        { id: 0, name: 'New Column 0', cards: [] }
+        { id: 0, name: 'New Column 0' },
     ],
 });
+
+export const columnCards = atom<CardProps[]>({
+    key: 'columnCards',
+    default: [
+        { id: 0, content: 'empty card 0' }
+    ],
+});
+
 
 // export const updateColumnByColumnId = (columnId: number, updatedColumn: ColumnProps) => {
 //     const columns = useRecoilValue(columnList);

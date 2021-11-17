@@ -1,19 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@chakra-ui/button';
 
-import { COLUMN_CLASSNAME } from '../constant';
+import { BOARD_CLASSNAME, COLUMN_CLASSNAME } from '../constant';
 import { Card, CardProps } from '../Card';
 import { EditButton } from './EditButton';
+import { Selector } from '../selectors/Selector';
+import { CARD_CLASSNAME } from './../constant';
+import { cardList } from './../../states/ColumnState';
+import { useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 export interface ColumnProps {
     id: number;
     name: string;
-    cards: CardProps[];
 }
 
-const ColumnComponent = (props: ColumnProps) => {
+interface ComponentProps {
+    cards: CardProps[];
+    setCards: (cards: CardProps[]) => void;
+}
+
+type Props = ColumnProps & ComponentProps
+
+const ColumnComponent = (props: Props) => {
+    const { cards, setCards } = props;
     const [columnName, setcolumnName] = useState(props.name);
-    const [cards, setCards] = useState<CardProps[]>([]);
 
     const handleAddCard = () => {
         const newCard: CardProps = {
@@ -30,7 +41,7 @@ const ColumnComponent = (props: ColumnProps) => {
         const AddCardButton = () => <Button colorScheme="blue" onClick={handleAddCard}>+</Button>;
 
         return (
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className={`${COLUMN_CLASSNAME}_${props.id}`} style={{ display: 'flex', flexDirection: 'column' }}>
                 <AddCardButton />
                 <CardList />
             </div>
@@ -38,7 +49,7 @@ const ColumnComponent = (props: ColumnProps) => {
     };
 
     return (
-        <div className={COLUMN_CLASSNAME} style={{ border: '1px solid blue', width: '300px', padding: '10px', margin:'20px' }}>
+        <div className={""} style={{ display: 'flex', flexDirection: 'column', border: '1px solid blue', width: '300px', padding: '10px', margin:'20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                 <span>{columnName}</span>
                 <EditButton />
@@ -49,5 +60,12 @@ const ColumnComponent = (props: ColumnProps) => {
 };
 
 export const Column = (props: ColumnProps) => {
-    return <ColumnComponent {...props} />;
+    const cards = useRecoilValue(cardList);
+    const setCards = useSetRecoilState(cardList);
+
+    useEffect(() => {
+        Selector({ parentClassName: `${COLUMN_CLASSNAME}_${props.id}`, childClassName: CARD_CLASSNAME });
+    }, cards);
+    
+    return <ColumnComponent cards={cards} setCards={setCards} {...props} />;
 };

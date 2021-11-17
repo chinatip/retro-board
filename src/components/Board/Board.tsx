@@ -1,10 +1,11 @@
 import { Column, ColumnProps } from './../Column/Column';
-import { BOARD_CLASSNAME, COLUMN_CLASSNAME } from './../constant';
+import { BOARD_CLASSNAME, COLUMN_CLASSNAME, CARD_CLASSNAME } from './../constant';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { columnList } from './../../states/BoardState';
 import { Button } from '@chakra-ui/button';
 import { Selector } from '../selectors/Selector';
+import { cardList } from './../../states/ColumnState';
 
 const BoardComponent = () => {
     const [name, setName] = useState('BoardName');
@@ -24,7 +25,6 @@ const BoardComponent = () => {
             const newCol: ColumnProps = {
                 id: columns.length,
                 name: `New Column ${columns.length}`,
-                cards: [],
             };
     
             setColumns(columns.concat(newCol));
@@ -50,9 +50,9 @@ const BoardComponent = () => {
 };
 
 export const Board = () => {
-    useEffect(() => {
-        Selector({ parentClassName: BOARD_CLASSNAME, childClassName: COLUMN_CLASSNAME });
-    });
+    // useEffect(() => {
+    //     //Selector({ parentClassName: BOARD_CLASSNAME, childClassName: COLUMN_CLASSNAME });
+    // });
 
   return <BoardComponent />
 }
