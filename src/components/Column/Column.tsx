@@ -1,70 +1,75 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@chakra-ui/button';
-import { useDisclosure } from '@chakra-ui/react';
 
-import { COLUMN_CLASSNAME } from '../constant';
-import { Modal } from '../Modal/Modal';
+import { BOARD_CHILD, BOARD_CLASSNAME, COLUMN_CLASSNAME } from '../constant';
 import { Card, CardProps } from '../Card';
+import { EditButton } from './EditButton';
+import { Selector } from '../selectors/Selector';
+import { CARD_CLASSNAME } from './../constant';
+import { cardList } from './../../states/ColumnState';
+import { useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { isColumnDraggable } from '../../states/BoardState';
 
-const ColumnComponent = () => {
-    const [columnName, setcolumnName] = useState('Column');
-    const [cards, setCards] = useState<CardProps[]>([]);
+export interface ColumnProps {
+    id: number;
+    name: string;
+}
 
-    const getDefaultCard = (): CardProps => ({ content: 'empty card' });
+interface ComponentProps {
+    cards: CardProps[];
+    setCards: (cards: CardProps[]) => void;
+}
 
-    function handlePrependCard(): void {
-      const updatedCardList = [getDefaultCard()].concat(cards);
-      setCards(updatedCardList);
+type Props = ColumnProps & ComponentProps
+
+const ColumnComponent = (props: Props) => {
+    const { cards, setCards } = props;
+    const [columnName, setcolumnName] = useState(props.name);
+    const movable = useRecoilValue(isColumnDraggable);
+
+    const handleAddCard = () => {
+        const newCard: CardProps = {
+            id: cards.length,
+            content: `empty card ${cards.length}`,
+        };
+        const updatedCardList = cards?.concat(newCard);
+
+        setCards(updatedCardList);
     };
 
-    function handleAppendCard(): void {
-      const updatedCardList = cards.concat(getDefaultCard());
-      setCards(updatedCardList);
-    }
+    const renderContent = () => {
+        const CardList = () => <>{cards.map(c => <Card {...c} />)}</>;
+        const AddCardButton = () => <Button colorScheme="blue" onClick={handleAddCard}>+</Button>;
 
-    function renderHeader(): JSX.Element {
-      const EditButton = () => {
-        const disclosureProps = useDisclosure();
-        const footer = (
-          <>
-            <Button colorScheme="blue" mr={3} onClick={disclosureProps.onClose}>
-                Close
-            </Button>
-            <Button variant="ghost">Secondary Action</Button>
-          </>
-        );
-      
-        return <Modal buttonText="..." modalTitle={'Edit column name'} body={undefined} footer={footer} disclosureProps={disclosureProps} />;
-      };
-
-      return (
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-          <span>{columnName}</span>
-          <EditButton />
-        </div>
-      );
-    };
-
-    const renderCards = () => cards.map(c => <Card content="card"/>);
-
-    function renderContent(): JSX.Element {
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Button onClick={handlePrependCard}>+</Button>
-          {renderCards()}
-          <Button onClick={handleAppendCard}>+</Button>
-        </div>
+        return (
+            <div className={`${COLUMN_CLASSNAME}_${props.id}`} style={{ display: 'flex', flexDirection: 'column' }}>
+                <AddCardButton />
+                <CardList />
+            </div>
       );
     };
 
     return (
-        <div className={COLUMN_CLASSNAME} style={{ border: '1px solid blue', width: '300px', height: '80%', padding: '10px', margin:'20px' }}>
-            {renderHeader()}
+        <div className={`${movable ? BOARD_CHILD : ''}`} style={{ display: 'flex', flexDirection: 'column', border: '1px solid blue', width: '300px', padding: '10px', margin:'20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                <span>{columnName}</span>
+                <br/><br/><br/>
+
+                <EditButton />
+            </div>
             {renderContent()}
         </div>
     );
 };
 
-export const Column = () => {
-    return <ColumnComponent />;
+export const Column = (props: ColumnProps) => {
+    const cards = useRecoilValue(cardList);
+    const setCards = useSetRecoilState(cardList);
+
+    useEffect(() => {
+        Selector({ parentClassName: `${COLUMN_CLASSNAME}_${props.id}`, childClassName: CARD_CLASSNAME });
+    }, cards);
+    
+    return <ColumnComponent cards={cards} setCards={setCards} {...props} />;
 };

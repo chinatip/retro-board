@@ -1,3 +1,4 @@
-export const BOARD_CLASSNAME = 'board';
-export const COLUMN_CLASSNAME = 'column';
-export const CARD_CLASSNAME = 'card';
+export const BOARD_CLASSNAME = 'Board__Content';
+export const BOARD_CHILD = 'Board__Child';
+export const COLUMN_CLASSNAME = 'Column__Content';
+export const CARD_CLASSNAME = 'Card';
