@@ -7,6 +7,11 @@ export const enableEditing = atom({
     default: true,
 });
 
+export const isColumnDraggable = atom({
+    key: 'isColumnDraggable',
+    default: false,
+});
+
 export const hideCards = atom({
     key: 'hideCards',
     default: false,

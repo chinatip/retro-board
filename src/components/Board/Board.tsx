@@ -1,21 +1,31 @@
 import { Column, ColumnProps } from './../Column/Column';
-import { BOARD_CLASSNAME, COLUMN_CLASSNAME, CARD_CLASSNAME } from './../constant';
+import { BOARD_CLASSNAME, BOARD_CHILD } from './../constant';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { columnList } from './../../states/BoardState';
+import { columnList, isColumnDraggable } from './../../states/BoardState';
 import { Button } from '@chakra-ui/button';
 import { Selector } from '../selectors/Selector';
-import { cardList } from './../../states/ColumnState';
 
 const BoardComponent = () => {
     const [name, setName] = useState('BoardName');
     const columns = useRecoilValue(columnList);
     const setColumns = useSetRecoilState(columnList);
+    const isColmovable = useRecoilValue(isColumnDraggable);
+    const setIsColmovable = useSetRecoilState(isColumnDraggable);
 
     const renderBoardHeader = () => {
+        const CanDragColumnButton = () => {
+            const handleDrag = () => {
+                setIsColmovable(!isColmovable);
+            }
+    
+            return <Button onClick={handleDrag} colorScheme="blue">{`Drag - ${isColmovable}`}</Button>;
+        }
+
         return (
             <div className="Board__Header" style={{ width: '100%', padding: '40px', textAlign: 'center' }}>
                 <h1>{name}</h1>
+                <CanDragColumnButton />
             </div>
         )
     };
@@ -50,9 +60,9 @@ const BoardComponent = () => {
 };
 
 export const Board = () => {
-    // useEffect(() => {
-    //     //Selector({ parentClassName: BOARD_CLASSNAME, childClassName: COLUMN_CLASSNAME });
-    // });
+    useEffect(() => {
+        Selector({ parentClassName: BOARD_CLASSNAME, childClassName: BOARD_CHILD });
+    });
 
   return <BoardComponent />
 }

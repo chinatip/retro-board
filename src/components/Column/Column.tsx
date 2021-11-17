@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@chakra-ui/button';
 
-import { BOARD_CLASSNAME, COLUMN_CLASSNAME } from '../constant';
+import { BOARD_CHILD, BOARD_CLASSNAME, COLUMN_CLASSNAME } from '../constant';
 import { Card, CardProps } from '../Card';
 import { EditButton } from './EditButton';
 import { Selector } from '../selectors/Selector';
@@ -9,6 +9,7 @@ import { CARD_CLASSNAME } from './../constant';
 import { cardList } from './../../states/ColumnState';
 import { useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
+import { isColumnDraggable } from '../../states/BoardState';
 
 export interface ColumnProps {
     id: number;
@@ -25,6 +26,7 @@ type Props = ColumnProps & ComponentProps
 const ColumnComponent = (props: Props) => {
     const { cards, setCards } = props;
     const [columnName, setcolumnName] = useState(props.name);
+    const movable = useRecoilValue(isColumnDraggable);
 
     const handleAddCard = () => {
         const newCard: CardProps = {
@@ -49,9 +51,11 @@ const ColumnComponent = (props: Props) => {
     };
 
     return (
-        <div className={""} style={{ display: 'flex', flexDirection: 'column', border: '1px solid blue', width: '300px', padding: '10px', margin:'20px' }}>
+        <div className={`${movable ? BOARD_CHILD : ''}`} style={{ display: 'flex', flexDirection: 'column', border: '1px solid blue', width: '300px', padding: '10px', margin:'20px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                 <span>{columnName}</span>
+                <br/><br/><br/>
+
                 <EditButton />
             </div>
             {renderContent()}
