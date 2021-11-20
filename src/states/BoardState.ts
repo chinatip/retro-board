@@ -1,5 +1,5 @@
 import { atom, atomFamily, useRecoilValue, useSetRecoilState } from "recoil";
-import { ColumnProps } from './../components/Column/Column';
+import { ColumnProps } from '../components/Column';
 import { CardProps } from './../components/Card';
 
 export const enableEditing = atom({

@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@chakra-ui/button';
 
-import { BOARD_CHILD, BOARD_CLASSNAME, COLUMN_CLASSNAME } from '../constant';
-import { Card, CardProps } from '../Card';
+import { BOARD_CHILD, BOARD_CLASSNAME, COLUMN_CLASSNAME } from './constant';
+import { Card, CardProps } from './Card';
 import { EditButton } from './EditButton';
-import { Selector } from '../selectors/Selector';
-import { CARD_CLASSNAME } from './../constant';
-import { cardList } from './../../states/ColumnState';
+import { cardList } from '../states/ColumnState';
 import { useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
-import { isColumnDraggable } from '../../states/BoardState';
+import { isColumnDraggable } from '../states/BoardState';
+import { updateDraggableCards } from '../Utils/Draggable';
 
 export interface ColumnProps {
     id: number;
@@ -68,7 +67,7 @@ export const Column = (props: ColumnProps) => {
     const setCards = useSetRecoilState(cardList);
 
     useEffect(() => {
-        Selector({ parentClassName: `${COLUMN_CLASSNAME}_${props.id}`, childClassName: CARD_CLASSNAME });
+        updateDraggableCards(`${COLUMN_CLASSNAME}_${props.id}`);
     }, cards);
     
     return <ColumnComponent cards={cards} setCards={setCards} {...props} />;
