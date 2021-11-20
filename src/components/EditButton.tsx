@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/button';
 import { useDisclosure } from '@chakra-ui/react';
 
-import { Modal } from '../Modal/Modal';
+import { Modal } from './Modal';
 
 export const EditButton = () => {
     const disclosureProps = useDisclosure();

@@ -1,6 +1,6 @@
 import { Sortable } from '@shopify/draggable';
 import { DragSensor, SortableSortedEvent } from '@shopify/draggable/lib/draggable.bundle.legacy';
-import { BOARD_CHILD, BOARD_CLASSNAME, CARD_CLASSNAME } from '../constant';
+import { BOARD_CHILD, BOARD_CLASSNAME, CARD_CLASSNAME } from '../components/constant';
 
 export const updateDraggableColumns = () => SortableSelector(BOARD_CLASSNAME, BOARD_CHILD);
 export const updateDraggableCards = (parentClassName: string) => SortableSelector(parentClassName, CARD_CLASSNAME);

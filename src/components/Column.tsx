@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@chakra-ui/button';
 
-import { BOARD_CHILD, BOARD_CLASSNAME, COLUMN_CLASSNAME } from '../constant';
-import { Card, CardProps } from '../Card';
+import { BOARD_CHILD, BOARD_CLASSNAME, COLUMN_CLASSNAME } from './constant';
+import { Card, CardProps } from './Card';
 import { EditButton } from './EditButton';
-import { cardList } from './../../states/ColumnState';
+import { cardList } from '../states/ColumnState';
 import { useSetRecoilState } from 'recoil';
 import { useRecoilValue } from 'recoil';
-import { isColumnDraggable } from '../../states/BoardState';
+import { isColumnDraggable } from '../states/BoardState';
 import { updateDraggableCards } from '../Utils/Draggable';
 
 export interface ColumnProps {
