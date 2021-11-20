@@ -1,10 +1,10 @@
 import { Column, ColumnProps } from './../Column/Column';
-import { BOARD_CLASSNAME, BOARD_CHILD } from './../constant';
+import { BOARD_CLASSNAME } from './../constant';
 import { useEffect, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { columnList, isColumnDraggable } from './../../states/BoardState';
 import { Button } from '@chakra-ui/button';
-import { Selector } from '../selectors/Selector';
+import { updateDraggableColumns } from '../Utils/Draggable';
 
 const BoardComponent = () => {
     const [name, setName] = useState('BoardName');
@@ -61,7 +61,7 @@ const BoardComponent = () => {
 
 export const Board = () => {
     useEffect(() => {
-        Selector({ parentClassName: BOARD_CLASSNAME, childClassName: BOARD_CHILD });
+        updateDraggableColumns();
     });
 
   return <BoardComponent />

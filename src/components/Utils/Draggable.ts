@@ -1,29 +1,22 @@
 import { Sortable } from '@shopify/draggable';
 import { DragSensor, SortableSortedEvent } from '@shopify/draggable/lib/draggable.bundle.legacy';
-import { BOARD_CLASSNAME, COLUMN_CLASSNAME } from '../constant';
+import { BOARD_CHILD, BOARD_CLASSNAME, CARD_CLASSNAME } from '../constant';
 
-interface SelectorProps {
-    parentClassName: string;
-    childClassName: string;
+export const updateDraggableColumns = () => SortableSelector(BOARD_CLASSNAME, BOARD_CHILD);
+export const updateDraggableCards = (parentClassName: string) => SortableSelector(parentClassName, CARD_CLASSNAME);
 
-}
+export const SortableSelector = (parentClassName: string, childClassName: string) => {
+    const parent = `.${parentClassName}`;
+    const parents = document.querySelectorAll(`.${parentClassName}`);
 
-export const Selector = (props: SelectorProps) => {
-    if (!props) return null;
-
-    const { parentClassName, childClassName } = props;
-
-    const selector = `.${parentClassName}`;
-    const selectors = document.querySelectorAll(selector);
-
-    if (selectors.length === 0) {
+    if (parents.length === 0) {
         return false;
     }
 
-    const sortable = new Sortable(selectors, {
+    const sortable = new Sortable(parents, {
         draggable: `.${childClassName}`,
         mirror: {
-            appendTo: selector,
+            appendTo: parent,
             constrainDimensions: true,
         },
     });
@@ -45,7 +38,7 @@ export const Selector = (props: SelectorProps) => {
         //console.log(evt, 'over')
     });
 
-    sortable.on('sortable:sorted', (evt: SortableSortedEvent) => console.log(childClassName, evt.oldIndex, evt.newIndex))
+    //sortable.on('sortable:sorted', (evt: SortableSortedEvent) => console.log(childClassName, evt.oldIndex, evt.newIndex))
 
     return sortable;
 };
