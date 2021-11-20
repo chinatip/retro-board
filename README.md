@@ -17,18 +17,17 @@
 - Export board as image
 
 ### TODO :flags:
-- Setup
-    - Add react
-    - Add draggable
-    - Empty page and able to create cards inside a fixed column
 - V1
-    - Can create more columns and cards freely
-    - Styling
-    - Like / Dislike
-- V2
+    - Can create more columns and cards freely [DONE]
     - Movable cards and columns
+- V2
+    - Structure to support fetch, update, and other basic functionalities
 - V3
+    - Like / Dislike
     - Can merge / blur / hide votes the cards
     - Can mark a card as action items
+- V4 
+    - Styling
 - V4
     - Connect to a DB
+
